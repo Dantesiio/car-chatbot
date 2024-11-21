@@ -1,5 +1,7 @@
+import datetime
 import sys
 import os
+from datetime import datetime
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/../')
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
@@ -15,6 +17,19 @@ chatbot = CarTroubleshootingChatbot()
 class UserMessage(BaseModel):
     message: str
 
+
+
+@router.post("/log")
+async def save_log(log: dict):      
+    timestamp = log.get("timestamp", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    sender = log.get("sender", "Unknown")
+    message = log.get("message", "No message provided")
+    
+    # Guardar el log en un archivo
+    with open("chat_logs.log", "a") as file:
+        file.write(f"{timestamp} - {sender}: {message}\n")
+    
+    return {"status": "success"}
 
 @router.get("/get")
 async def simple_get():

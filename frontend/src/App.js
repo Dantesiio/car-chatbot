@@ -17,10 +17,31 @@ function App() {
 
     const userMessage = { sender: "User", text: input };
     setMessages((prev) => [...prev, userMessage]);
-
+    const logData = {
+      timestamp: new Date().toISOString(), // Generar un timestamp
+      sender: "User",
+      message: input,
+    };
+    
+    const response = await axios.post("http://localhost:8000/api/log", logData);
+    console.log("LOGS OGS");
+    console.log(response);
+    
     try {
       const response = await axios.post("http://localhost:8000/api/chat", { message: input });
       const botMessage = { sender: "Chatbot", text: response.data.response };
+      const botLogData = {
+        timestamp: new Date().toISOString(), // Generar un timestamp
+        sender: "Chatbot",
+        message: response.data.response,
+      };
+  
+      try {
+        await axios.post("http://localhost:8000/api/log", botLogData); // Guardar el mensaje del bot en los logs
+      } catch (error) {
+        console.error("Error saving bot log:", error);
+      }
+  
       setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
       const errorMessage = { sender: "Chatbot", text: "I'm sorry, an error occurred while processing your request." };
