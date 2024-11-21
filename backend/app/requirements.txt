@@ -1,0 +1,7 @@
+fastapi==0.115.4
+uvicorn==0.32.0
+experta==1.9.4
+pgmpy==0.1.26
+requests==2.32.3
+pydantic==2.9.2
+pytest
