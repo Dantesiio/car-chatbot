@@ -23,12 +23,12 @@ function App() {
       message: input,
     };
     
-    const response = await axios.post("http://localhost:8000/api/log", logData);
+    const response = await axios.post("https://car-chatbot-production.up.railway.app/api/log", logData);
     console.log("LOGS OGS");
     console.log(response);
     
     try {
-      const response = await axios.post("http://localhost:8000/api/chat", { message: input });
+      const response = await axios.post("https://car-chatbot-production.up.railway.app/api/chat", { message: input });
       const botMessage = { sender: "Chatbot", text: response.data.response };
       const botLogData = {
         timestamp: new Date().toISOString(), // Generar un timestamp
